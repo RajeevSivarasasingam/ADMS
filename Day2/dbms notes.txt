@@ -1,0 +1,57 @@
+
+
+	CREATE USER 'username'@localhost;
+	
+	-- Create a user without  a password
+	CREATE USER 'Rajeev' @localhost;
+	
+	-- Create a user with a password
+CREATE USER 'Rajeev'@'localhost' IDENTIFIED BY 'Raj$321';
+
+--change password
+SET PASSWORD FOR 'student_2'@'localhost' = PASSWORD('new_password');
+ALTER USER 'student_2'@'localhost' IDENTIFIED BY 'new_password';
+
+
+	
+	use mysql
+	 show tables;
+	select user,host from user;
+	select user,host,password from user;
+	
+	+------+-----------+----------+
+	| User | Host      | Password |
+	+------+-----------+----------+
+	| root | localhost |          |
+	| root | 127.0.0.1 |          |
+	| root | ::1       |          |
+	| pma  | localhost |          |
+	+------+-----------+----------+
+	4 rows in set (0.001 sec)
+	
+	
+--Removes the user account permanently.
+DROP USER <username>@localhost;
+DROP USER 'Rajeev' @localhost;
+	
+--Rename/updating the user name 	
+UPDATE user set user='<new usernmae>' where user='<old username>';
+UPDATE user set user='Raj' where user='Rajeev';
+ 
+RENAME USER 'oldname'@'localhost' TO 'newname'@'localhost';
+RENAME USER 'Raj'@'localhost' TO 'Rajeev2'@'localhost';
+ 
+
+--Update hostname	
+UPDATE user set host='<new hostname>' where user='<username>';
+UPDATE user set host='raj' where user='Rajeev';
+	
+select user,host,password from user;
+	
+	
+	
+	
+use test;
+create table sample_1(col_1 varchar(5));
+GRANT select ON test.sample_1 TO 'student01'@'localhost';
+show grant for 'student01'@'localhost';
