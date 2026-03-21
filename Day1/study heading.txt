@@ -1,0 +1,12 @@
+IT3223(p) 
+
+1.Recall SQL
+2.user creation and management
+3.user privileges
+4.Table constraints
+5.SQL views
+6.SQL indexs
+7.Stored Procedures
+8.SQL Transaction
+9.SQL Trigers
+
