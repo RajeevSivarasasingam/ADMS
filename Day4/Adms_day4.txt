@@ -1,0 +1,5 @@
+
+MYSQL 8.0 Command line Clint
+password : root
+
+
