@@ -1,0 +1,127 @@
+
+CREATE DATABASE customer_db;
+USE customer_db;
+
+
+--1. NOT NULL Constraint
+
+CREATE TABLE CUSTOMERS ( 
+ID INT NOT NULL, 
+NAME VARCHAR (20) NOT NULL, 
+AGE INT NOT NULL, 
+ADDRESS CHAR (25), 
+SALARY DECIMAL (18, 2),        
+PRIMARY KEY (ID) 
+);
+
+ 
+INSERT INTO CUSTOMERS VALUES  
+(1, 'Sunath', 30, 'Colombo', 2000.00), 
+(2, 'Kamal', 28, 'Jaffna', 1500.00), 
+(3, 'Mala', 25, 'Kandy', NULL), 
+(4, 'Manuja', 26, 'Gampaha', 6500.00), 
+(5, 'Kathees', 22, 'Anuradhapura', 8500.00), 
+(6, 'Anushi', 27, 'Vavuniya', NULL), 
+(7, 'Mahi', 28, 'Mahi', 10000.00);
+
+
+--2. NULLIF() Function
+
+SELECT NAME, ADDRESS, NULLIF(NAME, ADDRESS) AS Result
+FROM CUSTOMERS;
+	+---------+--------------+---------+
+	| NAME    | ADDRESS      | Result  |
+	+---------+--------------+---------+
+	| Sunath  | Colombo      | Sunath  |
+	| Kamal   | Jaffna       | Kamal   |
+	| Mala    | Kandy        | Mala    |
+	| Manuja  | Gampaha      | Manuja  |
+	| Kathees | Anuradhapura | Kathees |
+	| Anushi  | Vavuniya     | Anushi  |
+	| Mahi    | Mahi         | NULL    |
+	+---------+--------------+---------+
+
+
+--3. IFNULL() Function
+
+This function is used to replace the NULL value with the given value. 
+IFNULL(column_name, value_to_replace); 
+
+SELECT NAME, SALARY, IFNULL(SALARY, 5500) AS Result
+FROM CUSTOMERS;	   
+	+---------+----------+----------+
+	| NAME    | SALARY   | Result   |
+	+---------+----------+----------+
+	| Sunath  |  2000.00 |  2000.00 |
+	| Kamal   |  1500.00 |  1500.00 |
+	| Mala    |     NULL |  5500.00 |
+	| Manuja  |  6500.00 |  6500.00 |
+	| Kathees |  8500.00 |  8500.00 |
+	| Anushi  |     NULL |  5500.00 |
+	| Mahi    | 10000.00 | 10000.00 |
+	+---------+----------+----------+
+
+
+
+--4. CHECK Constraint 
+CREATE TABLE CUSTOMERS_2 (
+  ID INT NOT NULL,
+  NAME VARCHAR(20) NOT NULL,
+  AGE INT NOT NULL CHECK(AGE >= 20),
+  ADDRESS CHAR(25),
+  SALARY DECIMAL(18,2),
+  PRIMARY KEY(ID)
+);
+
+INSERT INTO CUSTOMERS_2 VALUES  
+(1, 'Sunath', 30, 'Colombo', 2000.00 ), 
+(2, 'kamal', 28, 'Jaffna', 1500.00 ), 
+(3, 'Mala', 25, 'Kandy', NULL ), 
+(4, 'Manuja', 26, 'Gampaha', 6500.00 ), 
+(5, 'Kathees', 22, 'Anuradhapura', 8500.00 ), 
+(6, 'Anushi', 27, 'Vavuniya', NULL ), 
+(7, 'Mahi', 28, 'Mahi', 10000.00 );
+
+INSERT INTO CUSTOMERS_2 (ID,NAME,AGE,ADDRESS,SALARY) VALUES  
+(1, 'Mithilan', 15, 'Vanni', 2000.00 ); 			-- here age <20 
+
+ERROR 3819 (HY000): Check constraint 'customers_2_chk_1' is violated.
+
+INSERT INTO CUSTOMERS_2 (ID,NAME,AGE,ADDRESS,SALARY) VALUES  
+(1, 'Mithilan', 18, 'Vanni', 2000.00 ); 			-- here age <20 
+
+ERROR 3819 (HY000): Check constraint 'customers_2_chk_1' is violated.
+
+
+
+--5. CHECK Constraint (Multiple Columns)
+CREATE TABLE CUSTOMERS_3 ( 
+ID INT NOT NULL, 
+NAME VARCHAR (20) NOT NULL, 
+AGE INT NOT NULL CHECK(AGE >= 20), 
+ADDRESS CHAR (25), 
+SALARY DECIMAL (18, 2) CHECK(SALARY >= 20000), 
+PRIMARY KEY (ID) 
+);
+
+INSERT INTO CUSTOMERS_3 (ID,NAME,AGE,ADDRESS,SALARY) VALUES 
+(1, 'Mithilan', 15, 'Vanni', 2000.00 );
+
+ERROR 3819 (HY000): Check constraint 'customers_3_chk_1' is violated.
+
+INSERT INTO CUSTOMERS_3 (ID,NAME,AGE,ADDRESS,SALARY) VALUES 
+(1, 'Mithilan', 20, 'Vanni', 20000.00 );
+
+Query OK, 1 row affected (0.00 sec)
+
+--6. Alternate Method for CHECK Constraint
+CREATE TABLE PRODUCTS( 
+PID INT NOT NULL, 
+PNAME VARCHAR(30), 
+DELIVERY_CITY VARCHAR(20), 
+DATE_OF_ORDER Date NOT NULL, 
+PRICE INT, 
+PRIMARY KEY(PID), 
+CONSTRAINT Constraint_DOO CHECK(DATE_OF_ORDER <= '2023
+02-09') 
+); 
